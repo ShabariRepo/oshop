@@ -1,11 +1,12 @@
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/switchMap';
 import * as firebase from 'firebase';
 import { AppUser } from './models/app-user';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class AuthService {
@@ -42,7 +43,11 @@ export class AuthService {
   // use the switch map operator to map a firebase user object to an app User object
   get appUser$() : Observable<AppUser> {
     return this.user$
-      .switchMap(user => this.userService.get(user.uid))    
-  }
+      .switchMap(user => {
+        if(user) return this.userService.get(user.uid);
 
+        // without this the logout will say uid not found and error out..
+        return Observable.of(null);
+      });
+  }
 }
