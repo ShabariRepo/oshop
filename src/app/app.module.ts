@@ -22,6 +22,7 @@ import { ProductsComponent } from './products/products.component';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { LoginComponent } from './login/login.component';
     MyOrdersComponent,
     AdminOrdersComponent,
     AdminProductsComponent,
-    LoginComponent
+    LoginComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,12 @@ import { LoginComponent } from './login/login.component';
       { 
         path: 'admin/products', 
         component: AdminProductsComponent, 
-        canActivate: [AuthGuardService, AdminAuthGuardService] 
+        canActivate: [AuthGuardService, AdminAuthGuardService]
+      },
+      { 
+        path: ' /admin/products/new', 
+        component: ProductFormComponent, 
+        canActivate: [AuthGuardService, AdminAuthGuardService]
       },
       { 
         path: 'admin/orders', 
