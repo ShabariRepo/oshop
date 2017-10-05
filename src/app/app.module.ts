@@ -61,7 +61,7 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
         canActivate: [AuthGuardService, AdminAuthGuardService]
       },
       { 
-        path: ' /admin/products/new', 
+        path: 'admin/products/new', 
         component: ProductFormComponent, 
         canActivate: [AuthGuardService, AdminAuthGuardService]
       },
