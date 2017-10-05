@@ -1,5 +1,6 @@
+import { AppUser } from './models/app-user';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import * as firebase from 'firebase';
 
 @Injectable()
@@ -15,5 +16,11 @@ export class UserService {
       name: user.displayName,
       email: user.email
     });
+  }
+
+  // to get the user data from the DB for a id given in..
+  // The : represents what the method returns and this one returns the FB object observable of type AppUser..
+  get(uid: string): FirebaseObjectObservable<AppUser> {
+    return this.db.object('/users/' + uid);
   }
 }
