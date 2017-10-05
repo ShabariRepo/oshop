@@ -1,8 +1,11 @@
+import { UserService } from './user.service';
+import { AppUser } from './models/app-user';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
+import 'rxjs/add/operator/switchMap';
 import * as firebase from 'firebase';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +14,10 @@ export class AuthService {
   user$: Observable<firebase.User>;
 
   // Activated Route will have the route and will allow us to store the return URL queryParameter locally while google is authenticating and comes back..
-  constructor(private afAuth: AngularFireAuth, private route: ActivatedRoute) {
+  constructor(
+    private userService: UserService,
+    private afAuth: AngularFireAuth, 
+    private route: ActivatedRoute) {
     // auth state is an observable that represents the state of the current user..
     // will automatically unsubscribe from the observable when that component is destroyed..
     this.user$ = afAuth.authState;
@@ -31,6 +37,12 @@ export class AuthService {
 
   logout(){
     this.afAuth.auth.signOut();
+  }
+
+  // use the switch map operator to map a firebase user object to an app User object
+  get appUser$() : Observable<AppUser> {
+    return this.user$
+      .switchMap(user => this.userService.get(user.uid))    
   }
 
 }
