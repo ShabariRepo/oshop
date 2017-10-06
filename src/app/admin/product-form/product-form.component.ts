@@ -13,6 +13,7 @@ export class ProductFormComponent implements OnInit {
   categories$;
   product = {}; /* if we do not set this to empty object then the form will show a 
   null reference exception because it also uese the getProduct() which actually returns a product*/
+  id;
 
   // no private because for now we  are only going to use it in the constructor and not anywhere else in the class
   // private product service because we are going to use it in our save method
@@ -28,18 +29,19 @@ export class ProductFormComponent implements OnInit {
     this.categories$ = categoryService.getCategories();
 
     // get the id parameter from the snapshot
-    let id = this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
     
     // if we have an id then we want to read the product from firebase
       // we need to subscribe to the observable to read the product
-    if(id){
-      this.productService.getProduct(id).take(1).subscribe(p => this.product = p);
+    if(this.id){
+      this.productService.getProduct(this.id).take(1).subscribe(p => this.product = p);
     }
    }
 
    save(product){
-     //console.log(product);
-     this.productService.create(product);
+     // if we have an id then update the product updateProduct()
+     if (this.id) this.productService.updateProduct(this.id, product);
+     else this.productService.create(product);
 
      // take the users to the products list after adding the product to DB
      this.router.navigate(['/admin/products']);
