@@ -38,7 +38,7 @@ export class ProductFormComponent implements OnInit {
     }
    }
 
-   save(product){
+   save(product) {
      // if we have an id then update the product updateProduct()
      if (this.id) this.productService.updateProduct(this.id, product);
      else this.productService.create(product);
@@ -47,6 +47,22 @@ export class ProductFormComponent implements OnInit {
      this.router.navigate(['/admin/products']);
    }
 
+   // when deleting always ask for confirmation
+   delete() {
+     // if they hit the cancel button then return them to the page
+    if(!confirm('Delete this product?')) return;
+
+      this.productService.deleteProduct(this.id);
+      // take the users to the products list after adding the product to DB
+      this.router.navigate(['/admin/products']);
+
+     // above is cleaner
+    //  if(confirm('Delete this product?')){
+    //    this.productService.deleteProduct(this.id);
+    //    // take the users to the products list after adding the product to DB
+    //    this.router.navigate(['/admin/products']);
+    //  }
+   }
   ngOnInit() {
   }
 

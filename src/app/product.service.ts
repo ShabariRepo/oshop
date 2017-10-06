@@ -28,4 +28,9 @@ export class ProductService {
   updateProduct(productId, product){
     return this.db.object('/products/' + productId).update(product);
   }
+
+  // delete the product based on the id that is passed in
+  deleteProduct(productId) {
+    return this.db.object('/products/' + productId).remove();
+  }
 }
