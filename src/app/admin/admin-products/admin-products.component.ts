@@ -1,6 +1,7 @@
 import { ProductService } from './../../product.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-admin-products',
@@ -9,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
   // array of different types of products not instance of products just the types
-  products: any[];              // array of all products types
+  products: Product[];              // array of all products types
   filteredProducts: any[];      // the array of product types to show in the front end
   subscription: Subscription;   // local subscription object to then dispose of with later
   
