@@ -19,6 +19,13 @@ export class ShoppingCartService {
     return this.db.object('/shopping-carts/' + cartId);
   }
 
+  private getItem(cartId: string, productId: string){    
+    // get reference to the product in the shopping cart
+    // the products in the shopping cart is in an array
+    // its an observable for a shopping cart item
+    return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
+  }
+
   // keep api simple so not accessible from outside
   // only focus is to get a reference to the shopping cart and does not post products to cart
   // decorating the async keyword means the method returns a promise
@@ -41,16 +48,12 @@ export class ShoppingCartService {
   async addToCart(product: Product) {
     let cartId = await this.getOrCreateCartId();
 
-    // get reference to the product in the shopping cart
-    // the products in the shopping cart is in an array
-    // its an observable for a shopping cart item
-    let item$ = this.db.object('/shopping-carts/' + cartId + '/items/' + product.$key);
-
+    let item$ = this.getItem(cartId, product.$key);
     // subscribe to this observable to read it and dont want to unsubscribe later so to avoid the hassle use the take rxjs import
     // if the item exists then update the count else add first    
     item$.take(1).subscribe(item => {
-      if (item.$exists()) item$.update({ quantity: item.quantity + 1 });
-      else item$.set({ product: product, quantity: 1 });
+      // rid of if and else statements and run below kind of like a conditional but intuitive
+      item$.update({ product: product, quantity: (item.quantity || 0) + 1 });    
     });
   }
 }
