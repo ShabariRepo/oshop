@@ -6,13 +6,18 @@ export class ProductService {
 
   constructor(private db: AngularFireDatabase) { }
 
+  // push returns a promise so have to say return
   create(product){
-    // push returns a promise so have to say return
     return this.db.list('/products').push(product);
   }
-
+  
+  // get all the products from the db
   getAll(){
-    // get all the products from the db
     return this.db.list('/products');
+  }
+
+  // get a specific product from the db using product Id
+  getProduct(productId){
+    return this.db.object('/products/' + productId);
   }
 }
