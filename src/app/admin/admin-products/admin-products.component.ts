@@ -12,7 +12,6 @@ import { DataTableResource } from 'angular-4-data-table';
 export class AdminProductsComponent implements OnInit, OnDestroy {
   // array of different types of products not instance of products just the types
   products: Product[];              // array of all products types
-  filteredProducts: any[];          // the array of product types to show in the front end
   subscription: Subscription;       // local subscription object to then dispose of with later
   tableResource: DataTableResource<Product>;
   items: Product[] = [];
@@ -26,7 +25,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductService) {
     this.subscription = this.productService.getAll()
       .subscribe(products => {
-        this.filteredProducts = this.products = products;
+        this.products = products;
         
         this.initializeTable(products);
       });
@@ -54,9 +53,13 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   // if there is a query then filter the products based on title or else just returl list
   // keep things kosher by keeping it lower case
   filter(query: string) {
-    this.filteredProducts = (query) ?
+    // the array of product types to show in the front end
+    let filteredProducts = (query) ?
       this.products.filter(p => p.title.toLowerCase().includes(query.toLowerCase())) :
       this.products;
+
+      // after filtering through the array pass this into the resource product so table can resize
+      this.initializeTable(filteredProducts);
   }
 
   ngOnDestroy() {
