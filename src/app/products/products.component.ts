@@ -1,6 +1,9 @@
+import { ActivatedRoute } from '@angular/router';
 import { CategoryService } from './../category.service';
 import { ProductService } from './../product.service';
 import { Component, OnInit } from '@angular/core';
+import { Product } from '../models/product';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-products',
@@ -8,12 +11,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
-  products$;         // product observable
+  products: Product[] = [];         // product observable
+  filteredProducts: Product[];
   categories$;       // categories observable
+  category: string;
 
-  constructor(productService: ProductService, categoryService: CategoryService) {
+  constructor(
+    route: ActivatedRoute,
+    productService: ProductService,
+    categoryService: CategoryService) {
+
+    // get our firstt observable  
     // get all the products and categories using the product service injection
-    this.products$ = productService.getAll();
+    productService.getAll().switchMap(products => {
+        this.products = products;
+        // switch our first observable which is the list of products into the second observable queryParamMap
+        return route.queryParamMap;
+      })
+
+    // then subscribe to the second observable
+    // get the query params from the link but cannot use the snapshot because the route parameters can change from the main products page
+    .subscribe(params => {
+      this.category = params.get('category');
+
+      // filtering based on category
+      this.filteredProducts = (this.category) ?
+        this.products.filter(p => p.category === this.category) : this.products;
+    });
+
     this.categories$ = categoryService.getAll();
-   }
+  }
 }
