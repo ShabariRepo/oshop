@@ -22,7 +22,7 @@ export class ShoppingCartService {
     return this.db.object('/shopping-carts/' + cartId);
   }
 
-  private getItem(cartId: string, productId: string){    
+  private getItem(cartId: string, productId: string) {
     // get reference to the product in the shopping cart
     // the products in the shopping cart is in an array
     // its an observable for a shopping cart item
@@ -50,6 +50,14 @@ export class ShoppingCartService {
   }
 
   async addToCart(product: Product) {
+    this.updateItemQuantity(product, 1);
+  }
+
+  async removeFromCart(product: Product) {
+    this.updateItemQuantity(product, -1);
+  }
+
+  private async updateItemQuantity(product: Product, change: number) {
     let cartId = await this.getOrCreateCartId();
 
     let item$ = this.getItem(cartId, product.$key);
@@ -57,7 +65,7 @@ export class ShoppingCartService {
     // if the item exists then update the count else add first    
     item$.take(1).subscribe(item => {
       // rid of if and else statements and run below kind of like a conditional but intuitive
-      item$.update({ product: product, quantity: (item.quantity || 0) + 1 });    
+      item$.update({ product: product, quantity: (item.quantity || 0) + change });
     });
   }
 }

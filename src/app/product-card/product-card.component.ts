@@ -15,8 +15,13 @@ export class ProductCardComponent {
   constructor(private cartService: ShoppingCartService) { }
 
   // add the product to cart and invoke shopping cart service methods
-  addToCart(product: Product) {
-    this.cartService.addToCart(product);
+  addToCart() {
+    this.cartService.addToCart(this.product);
+  }
+
+  // remove product from cart
+  removeFromCart() {
+    this.cartService.removeFromCart(this.product);
   }
 
   // get the quantity of the cart if any products or cart exists
