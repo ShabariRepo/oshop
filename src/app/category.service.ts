@@ -7,7 +7,7 @@ export class CategoryService {
   constructor(private db: AngularFireDatabase) { }
 
   // return list of categories from the db
-  getCategories() {
+  getAll() {
     // the second argument is so that we can order the list by w.e
     // this object should have a property called query which is another object
     // and the sorting happens in that object
