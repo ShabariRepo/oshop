@@ -14,19 +14,6 @@ export class ProductCardComponent {
   constructor(private cartService: ShoppingCartService) { }
 
   addToCart(product: Product) {
-    // if you misspell this cart Id then it will create multiple cart ids in the db and make new values for cartId in developer tools
-    let cartId = localStorage.getItem('cartId');
-    if(!cartId) {
-      // if no cart id exists then create it via firebase service
-      this.cartService.create().then(result => {
-        localStorage.setItem('cartId', result.key);
-
-        // then add the product to cart
-
-      });
-    } else {
-      // add product to cart
-
-    }
+    this.cartService.addToCart(product);   
   }
 }
