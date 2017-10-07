@@ -1,3 +1,4 @@
+import { Product } from './product';
 import { ShoppingCartItem } from './shopping-cart-item';
 
 export class ShoppingCart {
@@ -24,5 +25,14 @@ export class ShoppingCart {
     for (let productId in this.itemsMap) 
       count += this.itemsMap[productId].quantity;
     return count;
+  }
+
+  // get the quantity of the cart if any products or cart exists
+  getQuantity(product: Product) {    
+    // got to the shopping cart items and property of which the key should be the same as the key from product
+    let item = this.itemsMap[product.$key];
+
+    // but there may not be anything in the item key (0) products in cart if not then return 0
+    return item ? item.quantity : 0;
   }
 }
