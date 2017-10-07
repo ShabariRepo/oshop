@@ -52,22 +52,27 @@ export class ShoppingCartService {
   }
 
   async addToCart(product: Product) { 
-    this.updateItemQuantity(product, 1);
+    this.updateItem(product, 1);
   }
 
   async removeFromCart(product: Product) {
-    this.updateItemQuantity(product, -1);
+    this.updateItem(product, -1);
   }
 
-  private async updateItemQuantity(product: Product, change: number) {
+  private async updateItem(product: Product, change: number) {
     let cartId = await this.getOrCreateCartId();
 
     let item$ = this.getItem(cartId, product.$key);
     // subscribe to this observable to read it and dont want to unsubscribe later so to avoid the hassle use the take rxjs import
     // if the item exists then update the count else add first    
+    // rid of if and else statements and run below kind of like a conditional but intuitive
     item$.take(1).subscribe(item => {
-      // rid of if and else statements and run below kind of like a conditional but intuitive
-      item$.update({ product: product, quantity: (item.quantity || 0) + change });
+      item$.update({ 
+        title: product.title,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        quantity: (item.quantity || 0) + change 
+      });
     });
   }
 }
