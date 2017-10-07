@@ -7,15 +7,17 @@ export class ShoppingCart {
   constructor(public itemsMap: { [productId: string]: ShoppingCartItem }) {
     // set the itemsMap to what is passed in or empty object so that we do not get error and crash if null or no itemsMap passed in
     this.itemsMap = itemsMap || {};
-    
+
     for (let productId in itemsMap){
       let item = itemsMap[productId];
-      let x = new ShoppingCartItem();
-      // copy all the objects properties from the firebase into the shopping cart item using OBject.assign
-      Object.assign(x, item);
-      // need to get the key as well for $key
-      x.$key = productId;
-      this.items.push(x);
+      /* 
+      '...' is the spread operator and is equivalent to assigning all object properties so the ... below is equivalent to:
+      tite: item.title,
+      imageUrl: item.imageUrl,
+      price: item.price
+      */
+      // copy all the objects properties from the firebase into the shopping cart item
+      this.items.push(new ShoppingCartItem({ ...item, $key: productId }));
     }
   }
 
