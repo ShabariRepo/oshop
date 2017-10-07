@@ -73,11 +73,13 @@ export class ShoppingCartService {
     // if the item exists then update the count else add first    
     // rid of if and else statements and run below kind of like a conditional but intuitive
     item$.take(1).subscribe(item => {
-      item$.update({ 
+      let quantity = (item.quantity || 0) + change;
+      if(quantity === 0) item$.remove();
+      else item$.update({ 
         title: product.title,
         imageUrl: product.imageUrl,
         price: product.price,
-        quantity: (item.quantity || 0) + change 
+        quantity: quantity
       });
     });
   }
