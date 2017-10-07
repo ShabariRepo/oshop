@@ -13,9 +13,7 @@ export class ShoppingCartService {
 
   // create an entry under the shopping cart table in db
   private create() { 
-    return this.db.list('/shopping-carts').push({
-      dateCreated: new Date().getTime()
-    });
+    return this.db.list('/shopping-carts/').push({ dateCreated: new Date().getTime() });
   }
 
   // whenever you use a map operator it will give regular observable not firebase kind
