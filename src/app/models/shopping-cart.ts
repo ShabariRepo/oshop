@@ -4,7 +4,7 @@ import { ShoppingCartItem } from './shopping-cart-item';
 export class ShoppingCart {
   items: ShoppingCartItem[] = [];
 
-  constructor(public itemsMap: { [productId: string]: ShoppingCartItem }) {
+  constructor(private itemsMap: { [productId: string]: ShoppingCartItem }) {
     // set the itemsMap to what is passed in or empty object so that we do not get error and crash if null or no itemsMap passed in
     this.itemsMap = itemsMap || {};
 

@@ -1,52 +1,59 @@
+import { ShoppingCart } from './../models/shopping-cart';
 import { Subscription } from 'rxjs/Subscription';
 import { ShoppingCartService } from './../shopping-cart.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from './../product.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product';
 import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit, OnDestroy {
+export class ProductsComponent implements OnInit {
   products: Product[] = [];         // product observable
   filteredProducts: Product[];
   category: string;
-  cart: any;
-  subscription: Subscription;
+  cart$: Observable<ShoppingCart>;
 
   constructor(
-    route: ActivatedRoute,
-    productService: ProductService,
+    private route: ActivatedRoute,
+    private productService: ProductService,
     private shoppingCartService: ShoppingCartService
-  ) {
-    // get our firstt observable  
-    // get all the products and categories using the product service injection
-    productService.getAll().switchMap(products => {
-        this.products = products;
-        // switch our first observable which is the list of products into the second observable queryParamMap
-        return route.queryParamMap;
-      })
-
-    // then subscribe to the second observable
-    // get the query params from the link but cannot use the snapshot because the route parameters can change from the main products page
-    .subscribe(params => {
-      this.category = params.get('category');
-
-      // filtering based on category
-      this.filteredProducts = (this.category) ?
-        this.products.filter(p => p.category === this.category) : this.products;
-    });
-  }
+  ) {}
 
   async ngOnInit() {
-    this.subscription = (await this.shoppingCartService.getCart()).subscribe(cart => this.cart = cart);
+    this.cart$ = await this.shoppingCartService.getCart();
+
+    // populate products
+    this.populateProducts();    
   }
 
-  ngOnDestroy(){
-    this.subscription.unsubscribe();
+  private applyFilter(){
+    // filtering based on category
+    this.filteredProducts = (this.category) ?
+    this.products.filter(p => p.category === this.category) : this.products;
+  }
+
+  // Populate the products 
+  private populateProducts(){
+    // get our firstt observable  
+    // get all the products and categories using the product service injection
+    this.productService.getAll().switchMap(products => {
+      this.products = products;
+      // switch our first observable which is the list of products into the second observable queryParamMap
+      return this.route.queryParamMap;
+    })
+
+      // then subscribe to the second observable
+      // get the query params from the link but cannot use the snapshot because the route parameters can change from the main products page
+      .subscribe(params => {
+        this.category = params.get('category');
+        
+        this.applyFilter();
+      });
   }
 }
