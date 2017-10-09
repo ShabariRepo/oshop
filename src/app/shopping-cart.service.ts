@@ -40,7 +40,7 @@ export class ShoppingCartService {
   }
 
   // get the cart id and remove from db
-  async claarCart() {
+  async clearCart() {
     let cartId = await this.getOrCreateCartId();
     this.db.object('/shopping-carts/' + cartId + '/items').remove();
   }
