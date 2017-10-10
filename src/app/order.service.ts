@@ -15,4 +15,21 @@ export class OrderService {
     this.shoppingCartService.clearCart();
     return result;
   }
+
+  // get all the orders form firebase
+  getOrders(){
+    return this.db.list('/orders');
+  }
+
+  // get all the orders for a particular user
+  // in firebase when you want to get something specific back then use the query and always use orderByChild and select the node
+  // for the second one you can use comparison stuff like equalTo or startAt / endAt
+  getOrdersByUser(userId: string){
+    return this.db.list('/orders', {
+      query: {
+        orderByChild: 'userId',
+        equalTo: userId
+      }
+    });
+  }
 }
