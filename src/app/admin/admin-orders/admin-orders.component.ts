@@ -7,11 +7,11 @@ import { OrderService } from '../../order.service';
   styleUrls: ['./admin-orders.component.css']
 })
 export class AdminOrdersComponent implements OnInit {
-  order$;
+  orders$;
 
   // for admin get all orders placed
   constructor(private orderService: OrderService) {
-    this.order$ = orderService.getOrders();
+    this.orders$ = orderService.getOrders();
   }
 
   ngOnInit() {
