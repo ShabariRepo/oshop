@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Order } from './../models/order';
 import { AuthService } from './../auth.service';
 import { OrderService } from './../order.service';
@@ -18,7 +19,7 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   cartSubscription: Subscription;
   userSubscription: Subscription;
   
-  constructor (private shoppingCartService: ShoppingCartService, private orderService: OrderService, private authService: AuthService){
+  constructor (private router: Router, private shoppingCartService: ShoppingCartService, private orderService: OrderService, private authService: AuthService){
 
   }
 
@@ -27,17 +28,23 @@ export class CheckOutComponent implements OnInit, OnDestroy {
     let cart$ = await this.shoppingCartService.getCart();
     this.cartSubscription = cart$.subscribe(cart => this.cart = cart);
     // uid is the unique id that firebase assigns to its users
-    this.authService.user$.subscribe(user => this.userId = user.uid);
+    this.userSubscription = this.authService.user$.subscribe(user => this.userId = user.uid);
   }
 
   ngOnDestroy(){
     this.cartSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
   }
-  placeOrder() {
+  async placeOrder() {
     // console.log(this.shipping);
     // create an order object
     let order = new Order(this.userId, this.shipping, this.cart);
-    this.orderService.storeOrder(order);
+    let result = await this.orderService.storeOrder(order);
+    // wait for the result of the store order promise, then upon completion navigate to order-success page
+    // in the navigate the first element of the array is the location or destination, then its the property
+    // notice the second is not $key, $key is used when you read a node from Firebase
+    // key is used when you store something in firebase
+    // firebase returns a newly generated ID in this key property
+    this.router.navigate(['/order-success', result.key]);
   }    
 }
