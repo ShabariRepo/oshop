@@ -39,7 +39,8 @@ export class CheckOutComponent implements OnInit, OnDestroy {
     // console.log(this.shipping);
     // create an order object
     let order = new Order(this.userId, this.shipping, this.cart);
-    let result = await this.orderService.storeOrder(order);
+    let result = await this.orderService.placeOrder(order);
+    
     // wait for the result of the store order promise, then upon completion navigate to order-success page
     // in the navigate the first element of the array is the location or destination, then its the property
     // notice the second is not $key, $key is used when you read a node from Firebase
