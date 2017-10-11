@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css" //change to styles.scss and add the code there with variables set as $variable to use them in the code
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
