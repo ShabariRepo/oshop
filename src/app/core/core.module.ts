@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -9,7 +10,7 @@ import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
     NgbDropdownModule,
     RouterModule.forChild([])
   ],
