@@ -1,3 +1,5 @@
+import { UploadFormComponent } from './../upload-form/upload-form.component';
+import { UploadService } from './../upload.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -34,16 +36,18 @@ import { AdminAuthGuardService } from './services/admin-auth-guard.service';
         path: 'admin/orders', 
         component: AdminOrdersComponent, 
         canActivate: [AuthGuardService, AdminAuthGuardService] 
-      }
+      },
+      { path: 'upload', component: UploadFormComponent }
     ])
   ],
   declarations: [
     AdminOrdersComponent,
     AdminProductsComponent,
-    ProductFormComponent    
+    ProductFormComponent, 
   ],
   providers: [
-    AdminAuthGuardService
+    AdminAuthGuardService,
+    UploadService
   ]
 })
 export class AdminModule { }

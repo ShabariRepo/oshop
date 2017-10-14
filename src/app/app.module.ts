@@ -1,3 +1,4 @@
+import { UploadService } from './upload.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -11,10 +12,14 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { ProductsComponent } from './shopping/components/products/products.component';
 import { ShoppingModule } from './shopping/shopping.module';
+import { FileDropDirective } from './file-drop.directive';
+import { UploadFormComponent } from './upload-form/upload-form.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FileDropDirective,
+    UploadFormComponent
   ],
   imports: [
     BrowserModule,
@@ -25,10 +30,12 @@ import { ShoppingModule } from './shopping/shopping.module';
     AngularFireModule.initializeApp(environment.firebase),    
     RouterModule.forRoot([
       { path: '', component: ProductsComponent },
-      { path: 'login', component: LoginComponent },
+      { path: 'login', component: LoginComponent }
     ])    
   ],
-  providers: [],
+  providers: [
+    UploadService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
