@@ -211,3 +211,68 @@ Let me know if you'd like this turned into a slide or visual tracker – happy t
 
 — Shabari
 
+# InfraCopilot MVP – AI-Driven Architecture Request Assistant
+
+Hey team,
+
+Here’s a refined action plan focused on delivering a quick, targeted win that’s **specific to what our team does** — architecture reviews, security validation, and resource provisioning. This solution helps cut through noise, streamline intake, and make us look good doing it.
+
+---
+
+## 🎯 Goal
+Build a lightweight, AI-powered assistant ("**InfraCopilot**") that:
+- Takes natural language requests for infrastructure needs
+- Recommends **relevant reference architectures, security standards, and KB articles**
+- **Auto-fills and submits a ServiceNow ticket** to the right team
+- Notifies appropriate stakeholders, tagging the requester and routing team
+
+This helps us improve intake accuracy, reduce unnecessary back-and-forth, and accelerate throughput — all within our domain.
+
+---
+
+## ✅ MVP Functional Flow
+
+1. **User enters a request** ("I need to spin up a secure GCP workload with firewall and IAM reviewed")
+2. AI parses it and:
+   - Identifies **cloud**, **purpose**, **urgency**, **compliance needs**
+   - Returns links to past architectures, KBs, and provisioning steps
+3. **ServiceNow ticket is created automatically** using a pre-set template
+4. Correct team/person is **notified immediately** with all details pre-filled
+
+---
+
+## 🛠️ Core Components
+
+| Layer | Description |
+|-------|-------------|
+| **Frontend UI** | Simple web app with a text box, optional cloud selector, and preview of generated ticket/KBs |
+| **LLM Engine** | Azure OpenAI (GPT-4) or AWS Bedrock parses the request and pulls context (cloud, pattern, etc.) |
+| **RAG Index** | Searches Confluence, KB articles, and past architecture reviews to suggest helpful links |
+| **ServiceNow Integration** | Uses SN API to create a ticket with structured fields (assigned group, tags, urgency, etc.) |
+| **Notifier** | Sends confirmation to requester and routes to appropriate Slack/email/queue |
+
+---
+
+## 📅 Timeline & Action Plan
+
+| Phase | Time | Activities |
+|-------|------|------------|
+| **Week 1–2** | Requirements & Design | Identify SN ticket fields, finalize data sources, sketch basic UI |
+| **Week 3** | Ticket Automation | Build ServiceNow ticket submission pipeline + assign group logic |
+| **Week 4** | AI Intent Parsing | Set up prompt logic for parsing requests into structured fields |
+| **Week 5** | KB Linking | Add RAG layer to surface helpful docs/templates from Confluence/Wiki/GitHub |
+| **Week 6** | MVP UI & Internal Pilot | Launch simple UI, test internally with real intake requests, collect feedback |
+
+---
+
+## 📊 Expected Wins
+- Cuts **intake time per request** from 15–30 minutes to <5 minutes
+- Improves intake **quality and structure** (reducing follow-ups and rework)
+- Makes our team look efficient, AI-savvy, and proactive
+- Demonstrates **quick value to leadership** (visible, demo-able win)
+
+---
+
+Let me know if you want to call this something else or prep a visual flow for a stakeholder demo!
+
+— Shabari
