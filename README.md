@@ -61,4 +61,15 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - Adds value even before review by offering **automated architecture feedback**
 - Demonstrates **quick value to leadership** (visible, demo-able win)
 
+## 📅 Timeline & Action Plan
+
+| Phase | Time | Activities |
+|-------|------|------------|
+| **Week 1–2** | Requirements & Design | Identify SN ticket fields, define upload constraints, finalize data sources, sketch UI |
+| **Week 3** | Ticket Automation | Build ServiceNow ticket submission pipeline + assign group logic |
+| **Week 4** | AI Intent Parsing | Set up prompt logic for parsing requests into structured fields |
+| **Week 5** | KB Linking + Document Inference | Add RAG layer and basic upload parsing (PDF text extraction, diagram OCR if possible) |
+| **Week 6** | MVP UI & Internal Pilot | Launch simple UI, test internally with real intake requests, collect feedback |
+
+
 — Shabari
