@@ -27,252 +27,38 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 
-# Focused AI Initiatives to Drive Automation & Efficiency
+## 📦 Azure Services Required (Fully Private Setup)
 
-## Introduction
-
-I wanted to share a few practical AI-driven automation ideas that could make a big impact with minimal disruption. These **three high-value, low-effort initiatives** are designed to improve efficiency, streamline workflows, and reduce manual work without overcomplicating things.
-
----
-
-## 1. AI-Powered Forms Aggregation & Virtual Assistant (ServiceNow Optimization)
-
-### Problem
-Employees struggle to navigate the extensive number of ServiceNow forms, leading to inefficiencies and repetitive inquiries.
-
-### Solution
-- Develop an **AI-powered chatbot** that intelligently directs users to the correct ServiceNow form based on natural language queries.
-- Implement **semantic search capabilities** to allow employees to find relevant forms and knowledge base articles effortlessly.
-- Automate **frequently asked request processes** to streamline issue resolution.
-
-### Recommended AI Solution
-- **Azure OpenAI Service (GPT-4) or Google Vertex AI** for natural language processing and chatbot functionality.
-- **AWS Bedrock (Claude or Amazon Titan models)** for enterprise AI integration and governance.
-- **Google Gemini AI** if deeper search indexing across organizational knowledge bases is required.
-
-### Impact
-✅ Reduces IT service desk workload, enhances self-service capabilities, and improves employee productivity.
+| Service | Purpose | Network Scope | Notes |
+|--------|---------|----------------|-------|
+| **Azure OpenAI (Private Endpoint)** | LLM model for text analysis & suggestions | ✅ Private VNet Only | Requires Microsoft to enable OpenAI access in private deployment mode |
+| **Azure App Service (Premium V3 or Isolated)** | Hosting the Node/React frontend/backend | ✅ Deploy inside App Service Environment (ASE) | ASE allows hosting entire app in VNet, fully private |
+| **Azure Blob Storage** | File upload & retrieval (diagrams/docs) | ✅ Private endpoint | Store diagrams, PDFs, raw README, etc. |
+| **Azure Cognitive Services (Form Recognizer)** | Extracts content from architecture diagrams | ✅ Private endpoint | Needed only for PDFs/PNGs; optional if all input is raw text |
+| **Azure Key Vault** | Store secrets (e.g., OpenAI keys, service credentials) | ✅ Private endpoint | Attach private DNS zone and enable firewall integration |
+| **Azure VNet + Subnets** | Host the services privately | Core Infra | Must be configured for private DNS resolution |
+| **Azure Private DNS Zones** | Required for routing OpenAI, Blob, Cognitive Services, etc. | ✅ Internal only | Must be linked to VNet |
+| **Optional: Azure Log Analytics / Application Insights** | Track activity & feedback | ❌ Optional but helpful | If allowed, can use private Log Analytics workspace |
 
 ---
 
-## 2. Automated IT Ticket Triage & Resolution
+## 🔒 Network Requirements
 
-### Problem
-A significant portion of IT helpdesk tickets involve repetitive issues that could be handled without human intervention.
-
-### Solution
-- Deploy **AI-based ticket classification** to categorize incoming tickets and suggest automated solutions.
-- Implement an **auto-resolution system** for common issues like password resets, software requests, and access provisioning.
-- Route only complex tickets to human agents, improving efficiency and response time.
-
-### Recommended AI Solution
-- **Azure OpenAI (GPT-4) or AWS Bedrock (Claude 3)** for ticket classification and NLP automation.
-- **Google Vertex AI** for integrating AI into IT service management and ticket analytics.
-- **AWS Lambda & Amazon Lex** for chatbot-style ticket handling and automation.
-
-### Impact
-✅ Decreases IT support costs, reduces resolution times, and enhances user satisfaction through faster response rates.
-
----
-
-## 3. AI-Driven Incident & Anomaly Detection
-
-### Problem
-Manual monitoring of security and performance logs often leads to delayed responses and missed critical issues.
-
-### Solution
-- Utilize **AI-driven anomaly detection** to proactively identify security threats, system failures, and compliance risks.
-- Automate **real-time alerting and incident response workflows** to minimize downtime and mitigate risks.
-- Implement **machine learning models** to correlate historical patterns and predict potential failures before they occur.
-
-### Recommended AI Solution
-- **Google Vertex AI or AWS Bedrock (Titan Models)** for real-time anomaly detection.
-- **Azure AI Services (AI anomaly detection models)** for system performance and security event monitoring.
-- **AWS SageMaker** for predictive failure analysis and automation.
-
-### Impact
-✅ Reduces security risks, improves system reliability, and enhances overall operational resilience.
-
----
-
-## Next Steps
-
-1. Establish a small AI Task Force to develop proof-of-concept models for these initiatives.
-2. Assess potential efficiency gains and prioritize based on business impact.
-3. Execute pilot implementations and refine based on real-world performance.
-
-These three initiatives offer a **practical and achievable** way to bring AI into our workflows without overcomplicating things. The focus is on **major cloud providers (AWS, Azure, Google Cloud)** so we get enterprise-ready solutions with strong security and scalability.
-
-That said, if we need a more conversational or general-purpose AI model, we could also explore **OpenAI’s GPT-4-turbo or Anthropic Claude 3** down the line. But for now, keeping things within our existing cloud ecosystem will make implementation smoother.
-
-Would love to chat more and figure out the best way to get started!
-
----
-
-## Contact
-
-**Best regards,**  
-[Your Name]  
-[Your Position]  
-[Your Contact Information]  
-
----
-
-### 🤖 P.S.
-If AI ever does take over our jobs, at least we can say we automated ourselves out of work in the most efficient way possible! Let’s just make sure we program them to leave us coffee breaks. ☕
-
-
-# NEXT STEPS
-# AI Task Force: Initial Action Plan
-
-Hey team,
-
-As a follow-up to the AI Task Force summary, here's a more focused action plan to guide us through the next steps for the two proposed initiatives. The goal is to build momentum, get early wins, and make sure we’re pulling in the right folks without overwhelming anyone.
-
----
-
-## 1. AI-Powered Forms Aggregation & Virtual Assistant (ServiceNow Optimization)
-
-### **Goal**
-Help employees and teams **quickly get to the forms, templates, or documentation they need** based on *what they’re trying to accomplish*, not just keywords or vague category searches.
-
-Think: someone types “I’m setting up a new container-based architecture in AWS” — and they get directed to the VPC templates, Terraform forms, RBAC guidelines, and relevant architecture docs.
-
-### **What AI Brings to the Table**
-- Understands **intent** from natural language, not just exact keywords
-- Can **infer context** (e.g. "harness onboarding", "multi-region setup") and recommend related forms, code samples, or SOPs
-- Builds a **smarter internal knowledge layer** that continuously improves based on usage
-
-### **Immediate Actions**
-- **Stakeholder Sync**: Identify who owns our ServiceNow forms + KB content (likely ServiceNow Admin/ITSM + Infra/DevOps leads).
-- **Content Audit**: Create a shortlist of forms and internal docs that people struggle to find or always ask about.
-- **Model Design**: Focus on project/task-based queries like:
-  - "I want to implement multi-AZ failover in Azure"
-  - "How do I set up Harness for our dev teams?"
-  - "What's the process for requesting access to shared RDS?"
-- **Model Pick**: Start with Azure OpenAI (GPT-4) or Bedrock (Claude) depending on what's easiest to provision.
-- **Bot MVP**: Serve links to relevant forms, architecture diagrams, KBs, and templates based on query.
-
-### **Timeline**
-- **PoC Dev:** ~2–3 weeks
-- **Pilot Rollout:** ~6–8 weeks
-
-### **What We’ll Need**
-- Access to ServiceNow, Confluence/Wiki, shared drive locations
-- AI access + light UI or Slack/Teams interface (if needed)
-- Help from ServiceNow & DevOps SMEs
-
-### **Expected Wins**
-- Way fewer Slack pings like “where’s the form for X?”
-- Onboarding goes faster (especially for new team members)
-- Builds toward a **searchable, intelligent knowledge layer** for the org
-
----
-
-## 2. AI-Driven Incident & Anomaly Detection
-
-### **Goal**
-Catch issues before they snowball — using AI to look across all our cloud telemetry and surface problems a human might miss until it’s too late.
-
-### **What AI Brings to the Table**
-- Goes beyond threshold-based alerts (CPU > 90%) and finds **anomalous behavior patterns** across metrics/logs
-- Can **learn over time** what normal looks like for our workloads (e.g. weekend usage drops, backup timings, etc.)
-- **Combines multiple data sources** to find patterns we wouldn’t normally correlate manually (e.g. config drift + unusual access + cost spike)
-
-### **Immediate Actions**
-- **Tooling Review**: We're already using CloudHealth + Dome9. Let’s validate their AI/ML capabilities and identify what gaps still exist.
-- **Cloud Native Hook-ins**:
-  - AWS CloudWatch, GuardDuty, and Security Hub
-  - Azure Monitor, Sentinel
-  - GCP Operations Suite
-- **Anomaly Targets**: Pick 2–3 real scenarios we’d want to catch:
-  - Unexpected cost spike in one region
-  - Access pattern anomalies (e.g. login from new IP + sudden privilege changes)
-  - Deployment pipeline triggering new error pattern
-- **Data Access Strategy**: Identify where telemetry/logs are aggregated and what we can stream into an ML model or detection layer
-
-### **Timeline**
-- **PoC Dev:** ~2–4 weeks
-- **Pilot Rollout:** ~8–10 weeks
-
-### **What We’ll Need**
-- CloudOps, Security, and DevOps SMEs
-- Access to telemetry/logs (CloudWatch, Dome9, etc.)
-- Platform for model hosting (SageMaker, Vertex AI, etc.)
-
-### **Expected Wins**
-- Fewer 3 a.m. Slack escalations
-- MTTR goes down, confidence goes up
-- Paves the way for **real predictive ops**, not just reactive cleanup
-
----
-
-Let me know if you'd like this turned into a slide or visual tracker – happy to prep that too!
-
-— Shabari
-
-# InfraCopilot MVP – AI-Driven Architecture Request Assistant
-
-Hey team,
-
-Here’s a refined action plan focused on delivering a quick, targeted win that’s **specific to what our team does** — architecture reviews, security validation, and resource provisioning. This solution helps cut through noise, streamline intake, and make us look good doing it.
-
----
-
-## 🎯 Goal
-Build a lightweight, AI-powered assistant ("**InfraCopilot**") that:
-- Takes natural language requests for infrastructure needs
-- Recommends **relevant reference architectures, security standards, and KB articles**
-- **Auto-fills and submits a ServiceNow ticket** to the right team
-- Notifies appropriate stakeholders, tagging the requester and routing team
-
-This helps us improve intake accuracy, reduce unnecessary back-and-forth, and accelerate throughput — all within our domain.
-
----
-
-## ✅ MVP Functional Flow
-
-1. **User enters a request** ("I need to spin up a secure GCP workload with firewall and IAM reviewed")
-2. AI parses it and:
-   - Identifies **cloud**, **purpose**, **urgency**, **compliance needs**
-   - Returns links to past architectures, KBs, and provisioning steps
-3. **ServiceNow ticket is created automatically** using a pre-set template
-4. Correct team/person is **notified immediately** with all details pre-filled
-
----
-
-## 🛠️ Core Components
-
-| Layer | Description |
-|-------|-------------|
-| **Frontend UI** | Simple web app with a text box, optional cloud selector, and preview of generated ticket/KBs |
-| **LLM Engine** | Azure OpenAI (GPT-4) or AWS Bedrock parses the request and pulls context (cloud, pattern, etc.) |
-| **RAG Index** | Searches Confluence, KB articles, and past architecture reviews to suggest helpful links |
-| **ServiceNow Integration** | Uses SN API to create a ticket with structured fields (assigned group, tags, urgency, etc.) |
-| **Notifier** | Sends confirmation to requester and routes to appropriate Slack/email/queue |
-
----
-
-## 📅 Timeline & Action Plan
-
-| Phase | Time | Activities |
-|-------|------|------------|
-| **Week 1–2** | Requirements & Design | Identify SN ticket fields, finalize data sources, sketch basic UI |
-| **Week 3** | Ticket Automation | Build ServiceNow ticket submission pipeline + assign group logic |
-| **Week 4** | AI Intent Parsing | Set up prompt logic for parsing requests into structured fields |
-| **Week 5** | KB Linking | Add RAG layer to surface helpful docs/templates from Confluence/Wiki/GitHub |
-| **Week 6** | MVP UI & Internal Pilot | Launch simple UI, test internally with real intake requests, collect feedback |
+| Requirement | Details |
+|-------------|---------|
+| **No Internet** | All services must be deployed with private endpoints; public IPs disabled |
+| **DNS Resolution** | You’ll need a custom DNS forwarder or use Azure Private Resolver to resolve Microsoft service FQDNs (e.g., `openai.azure.com`, `blob.core.windows.net`) |
+| **No External APIs** | Can’t call out to GitHub, Confluence, etc. — all data ingestion must be manual or preloaded into Blob/Key Vault |
+| **No NAT Gateway or UDRs** | Services cannot reach internet, so any traffic to OpenAI, Form Recognizer must go through private endpoints inside VNet |
+| **No Public Webhooks or Ingress** | UI must be accessible via internal IP or through VPN/ExpressRoute only |
 
 ---
 
 ## 📊 Expected Wins
 - Cuts **intake time per request** from 15–30 minutes to <5 minutes
 - Improves intake **quality and structure** (reducing follow-ups and rework)
-- Makes our team look efficient, AI-savvy, and proactive
+- Surfaces **internal standards** earlier in the request lifecycle
+- Adds value even before review by offering **automated architecture feedback**
 - Demonstrates **quick value to leadership** (visible, demo-able win)
-
----
-
-Let me know if you want to call this something else or prep a visual flow for a stakeholder demo!
 
 — Shabari
